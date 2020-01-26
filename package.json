@@ -1,0 +1,16 @@
+{
+  "name": "ts-ast-type",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "scripts": {
+    "compile": "ts-node index.ts"
+  },
+  "keywords": [],
+  "author": "daief <defeng_mail@163.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  }
+}
