@@ -2,7 +2,8 @@ import * as ts from "typescript";
 
 /**
  * 定义一个简单的 transformer，作用是：
- *  将 import 语句中的模块名改成 `renamed-lib-name`
+ *  - before/afterDeclarations：将 import 语句中的模块名改成 `renamed-lib-name`
+ *  - after：将 `"use strict";` 语句改为 `"use strict"; // use strict`
  */
 const RenameTransformerFactory: ts.TransformerFactory<ts.SourceFile> = context => {
   return node => {
@@ -12,7 +13,15 @@ const RenameTransformerFactory: ts.TransformerFactory<ts.SourceFile> = context =
         ts.isImportDeclaration(node.parent) &&
         node.parent.moduleSpecifier === node
       ) {
+        // 更新 import
         return ts.createStringLiteral("renamed-lib-name");
+      } else if (
+        ts.isExpressionStatement(node) &&
+        ts.isStringLiteral(node.expression) &&
+        node.expression.text === "use strict"
+      ) {
+        // 添加注释
+        return ts.createIdentifier('"use strict"; // use strict');
       }
       return ts.visitEachChild(node, visitor, context);
     };
