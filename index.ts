@@ -15,7 +15,9 @@ const RenameTransformerFactory: ts.TransformerFactory<ts.SourceFile> = context =
       ) {
         // 更新 import
         return ts.createStringLiteral("renamed-lib-name");
-      } else if (
+      }
+
+      if (
         ts.isExpressionStatement(node) &&
         ts.isStringLiteral(node.expression) &&
         node.expression.text === "use strict"
